@@ -1,5 +1,5 @@
 package jupiterpa.ledstrip.model;
-
+////
 public class LED {
 
 	int row;
