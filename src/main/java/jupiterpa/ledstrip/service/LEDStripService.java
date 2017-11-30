@@ -42,6 +42,7 @@ public class LEDStripService {
 			writeLED();
 		} else {
 			readLED();
+			initializeGPIO();
 		}
 	}
 	
@@ -71,6 +72,13 @@ public class LEDStripService {
 	}
 	private void readLED() {
 		leds = db.findAll();
+	}
+	private void initializeGPIO() {
+		Iterator<LED> i = leds.iterator();
+		while (i.hasNext()) {
+			LED led = i.next();
+			gpio.update(_index(led.getRow(),led.getColumn()),led);
+		}
 	}
 
 }
