@@ -1,0 +1,9 @@
+# application.yml
+
+server:
+    port: 9998
+    
+ledstrip:
+    rows: 3
+    columns: 3
+    python_program: src\main\python\ledstrip.py

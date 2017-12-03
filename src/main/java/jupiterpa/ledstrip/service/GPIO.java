@@ -13,12 +13,12 @@ public class GPIO {
 	
 	private static final Logger logger = LoggerFactory.getLogger(GPIO.class);
 	
-	public void update(int index, LED led) {
+	public void update(int index, LED led, String program) {
 		logger.info("GPIO Write: " + led,led);
 
 		// Sun's ProcessBuilder and Process example
 		ProcessBuilder pb = 
-				new ProcessBuilder("python", "ledstrip.py",
+				new ProcessBuilder("python", program,
 						Integer.toString(index), 
 						Integer.toString(led.getRed()),
 						Integer.toString(led.getGreen()),
