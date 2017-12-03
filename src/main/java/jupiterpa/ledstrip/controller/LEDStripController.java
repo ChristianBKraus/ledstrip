@@ -11,33 +11,41 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jupiterpa.ledstrip.service.LEDStripService;
 import jupiterpa.ledstrip.model.LED; 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+@RequestMapping(path = LEDStripController.PATH)
 @RestController
 public class LEDStripController {
+	public static final String PATH ="/ledstrip";
+	private static final Logger logger = LoggerFactory.getLogger(LEDStripController.class);
+	
 	
 	@Inject
 	private LEDStripService service;
 	
-	@RequestMapping("/")
-	public String greeting(){
-		return "Hello World!!";
-	}
-	
-	@GetMapping("/ledstrip")
+	@GetMapping("")
 	public List<LED> ledstrip() {
+		System.out.println("Test");
+		logger.info("HTTP GET /ledstrip");
 		return service.getAll();
 	}
 
-	@GetMapping("/ledstrip/{row}/{column}")
+	@GetMapping("/{row}/{column}")
 	public LED ledstrip(@PathVariable int row, 
 			            @PathVariable int column) {
-		LED led = service.get(row,column);
-		return led;
+		logger.info("HTTP GET /ledstrip/" +row+"/"+column);
+		LED res = service.get(row,column);
+		logger.info("HTTP Result: "+res,res);
+		return res;
 	}
 
 
-	@PutMapping("/ledstrip")
+	@PutMapping("")
 	public LED ledstrip(@RequestBody LED led){
-		return service.update(led);
+		logger.info("HTTP PUT /ledstrip " + led,led);
+		LED res = service.update(led);
+		logger.info("HTTP Result: "+ res,res);
+		return res;
 	}
 }

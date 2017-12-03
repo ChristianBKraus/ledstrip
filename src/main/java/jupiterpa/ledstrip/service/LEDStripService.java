@@ -9,10 +9,14 @@ import org.springframework.stereotype.Component;
 
 import jupiterpa.ledstrip.model.LED;
 import jupiterpa.ledstrip.service.MongoDB;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Component
 public class LEDStripService {
 
+	private static final Logger logger = LoggerFactory.getLogger(LEDStripService.class);
+	
 	List<LED> leds = new ArrayList<LED>();
 
 	@Autowired GPIO gpio;
@@ -38,12 +42,16 @@ public class LEDStripService {
 
 	public void initialize() {
 		if (db.find(0, 0) == null) {
+			logger.info("Service No State found, initializing...");
 			initializeLED();
 			writeLED();
+			initializeGPIO();
 		} else {
+			logger.info("Service State stored, initializing...");
 			readLED();
 			initializeGPIO();
 		}
+		logger.info("Service State initialized");
 	}
 	
 	

@@ -3,13 +3,18 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import jupiterpa.ledstrip.model.LED;
 
 @Component
 public class GPIO {
+	
+	private static final Logger logger = LoggerFactory.getLogger(GPIO.class);
+	
 	public void update(int index, LED led) {
-		System.out.println(led.toString());
+		logger.info("GPIO Write: " + led,led);
 
 		// Sun's ProcessBuilder and Process example
 		ProcessBuilder pb = 
@@ -25,14 +30,16 @@ public class GPIO {
 			p.waitFor();
 			int exit = p.exitValue();
 			if (exit != 0) {
-				System.out.println("Python program exited with " + Integer.toString(exit) );
+				logger.error("GPIO Write: Python program exited with " + Integer.toString(exit) );
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			logger.error("GPIO Write: " + e);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			logger.error("GPIO Write: " + e);
 		}
 	}
 }
