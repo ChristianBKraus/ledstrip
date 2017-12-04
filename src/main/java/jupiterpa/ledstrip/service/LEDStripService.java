@@ -58,7 +58,11 @@ public class LEDStripService {
 	
 	
 	private int _index(int row, int column) {
-		return row + column * configuration.getRows();
+		int rows = configuration.getRows();
+		if (column % 2 == 0) {
+			return ( (column + 1) * rows ) - row - 1;
+		} else 
+			return row + column * rows;
 	}
 
 	private void initializeLED() {
