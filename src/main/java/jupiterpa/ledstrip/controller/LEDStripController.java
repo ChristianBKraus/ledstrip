@@ -13,12 +13,18 @@ import jupiterpa.ledstrip.service.LEDStripService;
 import jupiterpa.ledstrip.model.LED; 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
+
 
 @RequestMapping(path = LEDStripController.PATH)
 @RestController
 public class LEDStripController {
-	public static final String PATH ="/ledstrip";
-	private static final Logger logger = LoggerFactory.getLogger(LEDStripController.class);
+    public static final String PATH ="/ledstrip";
+
+    private static final Marker TECHNICAL = MarkerFactory.getMarker("TECHNICAL");
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	
 	@Inject
@@ -26,26 +32,33 @@ public class LEDStripController {
 	
 	@GetMapping("")
 	public List<LED> ledstrip() {
-		System.out.println("Test");
-		logger.info("HTTP GET /ledstrip");
+        MDC.put("endpoint", "GET: " + PATH );
+        logger.info(TECHNICAL, "HTTP GET /ledstrip");
+        
 		return service.getAll();
 	}
 
 	@GetMapping("/{row}/{column}")
 	public LED ledstrip(@PathVariable int row, 
 			            @PathVariable int column) {
-		logger.info("HTTP GET /ledstrip/" +row+"/"+column);
+        MDC.put("endpoint", "GET: " + PATH + "/" + row + "/" + column );
+		logger.info(TECHNICAL, "HTTP GET /ledstrip/" +row+"/"+column);
+
 		LED res = service.get(row,column);
-		logger.info("HTTP Result: "+res,res);
+		
+		logger.info(TECHNICAL, "HTTP Result: "+res,res);
 		return res;
 	}
 
 
 	@PutMapping("")
 	public LED ledstrip(@RequestBody LED led){
-		logger.info("HTTP PUT /ledstrip " + led,led);
+        MDC.put("endpoint", "PUT: " + PATH );
+		logger.info(TECHNICAL, "HTTP PUT /ledstrip " + led,led);
+
 		LED res = service.update(led);
-		logger.info("HTTP Result: "+ res,res);
+		
+		logger.info(TECHNICAL, "HTTP Result: "+ res,res);
 		return res;
 	}
 }
