@@ -37,7 +37,7 @@ public class LEDStripService {
 	public LED update(LED led) {
 		int index = _index(led.getRow(), led.getColumn());
 		db.update(led);
-		gpio.update(index, led,configuration.getPython_program());
+		gpio.update(index, led,configuration.getPythonProgram());
 		leds.get(index).update(led);
 		return led;
 	}
@@ -81,7 +81,7 @@ public class LEDStripService {
 		Iterator<LED> i = leds.iterator();
 		while (i.hasNext()) {
 			LED led = i.next();
-			gpio.update(_index(led.getRow(),led.getColumn()),led, configuration.getPython_program());
+			gpio.update(_index(led.getRow(),led.getColumn()),led, configuration.getPythonProgram());
 		}
 	}
 

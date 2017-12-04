@@ -14,7 +14,7 @@ public class GPIO {
 	private static final Logger logger = LoggerFactory.getLogger(GPIO.class);
 	
 	public void update(int index, LED led, String program) {
-		logger.info("GPIO Write: " + led,led);
+		logger.info("GPIO Write: " + led + " [" + program + "]",led);
 
 		// Sun's ProcessBuilder and Process example
 		ProcessBuilder pb = 

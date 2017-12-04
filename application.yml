@@ -6,4 +6,5 @@ server:
 ledstrip:
     rows: 3
     columns: 3
-    python_program: src\main\python\ledstrip.py
+    python_program_test: src\main\python\ledstrip_test.py
+    python_program_prod: src\main\python\ledstrip.py
