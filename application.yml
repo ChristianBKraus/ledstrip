@@ -3,6 +3,13 @@
 server:
     port: 9999
     
+spring:
+    data:
+        mongodb:
+            host: 127.0.0.1
+            port: 27017
+            database: ledstrip
+    
 ledstrip:
     rows: 3
     columns: 3

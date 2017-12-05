@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jupiterpa.ledstrip.service.LEDStripService;
-import jupiterpa.ledstrip.model.LED; 
+import jupiterpa.ledstrip.model.Led; 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
@@ -31,7 +31,7 @@ public class LEDStripController {
 	private LEDStripService service;
 	
 	@GetMapping("")
-	public List<LED> ledstrip() {
+	public List<Led> ledstrip() {
         MDC.put("endpoint", "GET: " + PATH );
         logger.info(TECHNICAL, "HTTP GET /ledstrip");
         
@@ -39,12 +39,12 @@ public class LEDStripController {
 	}
 
 	@GetMapping("/{row}/{column}")
-	public LED ledstrip(@PathVariable int row, 
+	public Led ledstrip(@PathVariable int row, 
 			            @PathVariable int column) {
         MDC.put("endpoint", "GET: " + PATH + "/" + row + "/" + column );
 		logger.info(TECHNICAL, "HTTP GET /ledstrip/" +row+"/"+column);
 
-		LED res = service.get(row,column);
+		Led res = service.get(row,column);
 		
 		logger.info(TECHNICAL, "HTTP Result: "+res,res);
 		return res;
@@ -52,11 +52,11 @@ public class LEDStripController {
 
 
 	@PutMapping("")
-	public LED ledstrip(@RequestBody LED led){
+	public Led ledstrip(@RequestBody Led led){
         MDC.put("endpoint", "PUT: " + PATH );
 		logger.info(TECHNICAL, "HTTP PUT /ledstrip " + led,led);
 
-		LED res = service.update(led);
+		Led res = service.update(led);
 		
 		logger.info(TECHNICAL, "HTTP Result: "+ res,res);
 		return res;

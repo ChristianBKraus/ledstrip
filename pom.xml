@@ -25,11 +25,19 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		
+		<!-- Spring Boot Starter - MONGO DB -->
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
+		
+		<!--  Spring Boot Starter - Test -->
 		<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path</artifactId>
@@ -43,13 +51,19 @@
 			<version>1</version>
 		</dependency>
 		
-		<!-- MongoDB -->
+		<!-- MongoDB 
 		<dependency>
 			<groupId>org.mongodb</groupId>
 			<artifactId>mongodb-driver</artifactId>
 			<version>3.4.3</version>	
 		</dependency>
-		
+		-->
+		<!-- H2 
+		<dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+        </dependency> 
+		-->
 	</dependencies>
 	
 	<build>

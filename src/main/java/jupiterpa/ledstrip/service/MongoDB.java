@@ -12,7 +12,7 @@ import static com.mongodb.client.model.Filters.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import jupiterpa.ledstrip.model.LED;
+import jupiterpa.ledstrip.model.Led;
 
 @Component
 public class MongoDB {
@@ -22,11 +22,11 @@ public class MongoDB {
 	
 	public MongoDB() { }
 
-	public LED insert(LED led) {
+	public Led insert(Led led) {
 		coll.insertOne(toDocument(led));
 		return find(led.getRow(),led.getColumn());
 	}
-	public LED find(int row, int column) {
+	public Led find(int row, int column) {
 		FindIterable<Document> res = coll.find( and( eq("row",row), eq("column",column) ) );
 		if (res.iterator().hasNext()) {
 		  Document doc = res.first();
@@ -35,9 +35,9 @@ public class MongoDB {
 			return null;
 		}
 	}
-	public List<LED> findAll() {
+	public List<Led> findAll() {
 		FindIterable<Document> res = coll.find( );
-		ArrayList<LED> list = new ArrayList<LED>();
+		ArrayList<Led> list = new ArrayList<Led>();
 		MongoCursor<Document> i = res.iterator();
 		while (i.hasNext()) {
 			list.add(toLED(i.next()));
@@ -45,13 +45,13 @@ public class MongoDB {
 		return list;
 		
 	}
-	public LED update(LED led) {
+	public Led update(Led led) {
 		coll.findOneAndReplace( and( eq("row",led.getRow()), eq("column",led.getColumn()) ),
 				        toDocument(led) );
 		return find(led.getRow(),led.getColumn());
 	}
 	
-	Document toDocument(LED led) {
+	Document toDocument(Led led) {
 		Document doc = 
 		  new Document("row",led.getRow())
 		      .append("column", led.getColumn())
@@ -60,9 +60,9 @@ public class MongoDB {
 		      .append("blue", led.getBlue());
 		return doc;
 	}
-	LED toLED(Document doc) {
-		LED led = 
-			new LED(
+	Led toLED(Document doc) {
+		Led led = 
+			new Led(
 				doc.getInteger("row"),
 				doc.getInteger("column"),
 				doc.getInteger("red"),

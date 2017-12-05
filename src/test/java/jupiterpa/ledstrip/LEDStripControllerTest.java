@@ -25,7 +25,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jupiterpa.ledstrip.controller.LEDStripController;
-import jupiterpa.ledstrip.model.LED;
+import jupiterpa.ledstrip.model.Led;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -38,7 +38,7 @@ public class LEDStripControllerTest {
     
     @Test
     public void getOneLED() throws Exception {
-    	LED led = new LED(1,1,10,10,10);
+    	Led led = new Led(1,1,10,10,10);
     	mockMvc.perform(get(PATH+"/1/1"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(APPLICATION_JSON_UTF8))
@@ -47,7 +47,7 @@ public class LEDStripControllerTest {
 
     @Test
     public void getAllLEDs() throws Exception {
-    	LED led = new LED(1,1,10,10,10);
+    	Led led = new Led(1,1,10,10,10);
     	mockMvc.perform(get(PATH+"/1/1"))
         	.andExpect(status().isOk())
         	.andExpect(content().contentType(APPLICATION_JSON_UTF8))
@@ -55,13 +55,13 @@ public class LEDStripControllerTest {
     }
     @Test
     public void updateLED() throws Exception {
-    	LED led = new LED(0,0,10,10,10);
+    	Led led = new Led(0,0,10,10,10);
     	mockMvc.perform( put(PATH).content(toJson(led)).contentType(APPLICATION_JSON_UTF8) )
     		.andExpect(status().isOk())
     		.andExpect(content().contentType(APPLICATION_JSON_UTF8))
     		.andExpect(content().string(containsString(toJson(led))));
 
-    	LED led2 = new LED(0,0,0,0,0);
+    	Led led2 = new Led(0,0,0,0,0);
     	mockMvc.perform( put(PATH).content(toJson(led2)).contentType(APPLICATION_JSON_UTF8) )
     		.andExpect(status().isOk())
     		.andExpect(content().contentType(APPLICATION_JSON_UTF8))

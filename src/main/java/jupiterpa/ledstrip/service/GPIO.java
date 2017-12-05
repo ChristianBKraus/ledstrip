@@ -6,14 +6,14 @@ import org.springframework.stereotype.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jupiterpa.ledstrip.model.LED;
+import jupiterpa.ledstrip.model.Led;
 
 @Component
 public class GPIO {
 	
 	private static final Logger logger = LoggerFactory.getLogger(GPIO.class);
 	
-	public void update(int index, LED led, String program) {
+	public void update(int index, Led led, String program) {
 		logger.info("GPIO Write: " + led + " [" + program + "]",led);
 
 		// Sun's ProcessBuilder and Process example

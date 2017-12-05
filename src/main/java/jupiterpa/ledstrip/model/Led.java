@@ -1,16 +1,21 @@
 package jupiterpa.ledstrip.model;
-////
-public class LED {
 
+import org.springframework.data.annotation.Id;
+
+public class Led {
+	
+	@Id
+	public String id;
+	
 	int row;
 	int column;		
 	int red = 0;
 	int green = 0;
 	int blue = 0;
 
-	public LED() {}
+	public Led() {}
 	
-	public LED(int row, int column, int red, int green, int blue) {
+	public Led(int row, int column, int red, int green, int blue) {
 		this.row = row;
 		this.column = column;
 		this.red = red;
@@ -18,12 +23,12 @@ public class LED {
 		this.blue = blue;
 	}
 
-	public LED(int row, int column) {
+	public Led(int row, int column) {
 		this.row = row;
 		this.column = column;
 	}
 
-	public void update(LED led) {
+	public void update(Led led) {
 		red = led.red;
 		green = led.green;
 		blue = led.blue;
