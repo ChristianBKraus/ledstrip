@@ -2,7 +2,7 @@ package jupiterpa.ledstrip;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.*;
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -38,20 +38,23 @@ public class LEDStripControllerTest {
     
     @Test
     public void getOneLED() throws Exception {
-    	Led led = new Led(1,1,10,10,10);
     	mockMvc.perform(get(PATH+"/1/1"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(APPLICATION_JSON_UTF8))
-        .andExpect(content().string(containsString(toJson(led))));
+        .andExpect(jsonPath("$.row").value("1"))
+        .andExpect(jsonPath("$.column").value("1"))
+        .andExpect(jsonPath("$.red").value("10"))
+        .andExpect(jsonPath("$.green").value("10"))
+        .andExpect(jsonPath("$.blue").value("10"));
     }
 
     @Test
     public void getAllLEDs() throws Exception {
-    	Led led = new Led(1,1,10,10,10);
-    	mockMvc.perform(get(PATH+"/1/1"))
+    	mockMvc.perform(get(PATH))
         	.andExpect(status().isOk())
         	.andExpect(content().contentType(APPLICATION_JSON_UTF8))
-        	.andExpect(content().string(containsString(toJson(led))));
+        	.andExpect(jsonPath("$",hasSize(9)))
+        	.andExpect(jsonPath("$[0].row").value("0"));
     }
     @Test
     public void updateLED() throws Exception {

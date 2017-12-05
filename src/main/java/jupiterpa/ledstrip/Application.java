@@ -13,7 +13,6 @@ import jupiterpa.ledstrip.service.*;
 public class Application implements CommandLineRunner {
 	
 	@Autowired LEDStripService service;
-	@Autowired MongoDB db;
 	@Autowired LedRepository repo;
 	
 	public static void main(String args[]){
@@ -23,18 +22,5 @@ public class Application implements CommandLineRunner {
 	@Override
 	public void run(String... arg0) throws Exception {
 		service.initialize();
-		initializeRepo();
 	}
-	
-	private void initializeRepo() {
-		System.out.println("Repo Start");
-		repo.deleteAll();
-		repo.save(new Led(0,0));
-		repo.save(new Led(1,0));
-		for (Led led : repo.findAll()) {
-			System.out.println(led);
-		}
-		System.out.println("Repo end");
-	}
-
 }

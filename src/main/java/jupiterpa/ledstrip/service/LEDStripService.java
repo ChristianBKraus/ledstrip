@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 import jupiterpa.ledstrip.configuration.LEDStripConfiguration;
 import jupiterpa.ledstrip.model.Led;
 import jupiterpa.ledstrip.model.LedRepository;
-import jupiterpa.ledstrip.service.MongoDB;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,14 +21,12 @@ public class LEDStripService {
 	List<Led> leds = new ArrayList<Led>();
 
 	@Autowired GPIO gpio;
-	@Autowired MongoDB db;
-	@Autowired LedRepository LEDRepo;
+	@Autowired LedRepository repo;
 	@Autowired LEDStripConfiguration configuration;
 
 	public LEDStripService() { }
 
 	public List<Led> getAll() {
-		System.out.println(LEDRepo.findAll());
 		return leds;
 	}
 
@@ -39,21 +36,23 @@ public class LEDStripService {
 
 	public Led update(Led led) {
 		int index = _index(led.getRow(), led.getColumn());
-		db.update(led);
+		Led res = repo.findByRowAndColumn(led.getRow(), led.getColumn());
+		res.update(led);
+		repo.save(res);
 		gpio.update(index, led,configuration.getPythonProgram());
 		leds.get(index).update(led);
 		return led;
 	}
 
 	public void initialize() {
-		if (db.find(0, 0) == null) {
+		if (repo.findByRowAndColumn(0, 0) == null) {
 			logger.info("Service No State found, initializing...");
 			initializeLED();
-			writeLED();
+			repo.save(leds);
 			initializeGPIO();
 		} else {
 			logger.info("Service State stored, initializing...");
-			readLED();
+			leds = repo.findAll();
 			initializeGPIO();
 		}
 		logger.info("Service State initialized");
@@ -74,15 +73,6 @@ public class LEDStripService {
 				leds.add(new Led(i,j));
 			}
 		}
-	}
-	private void writeLED() {
-		Iterator<Led> i = leds.iterator();
-		while (i.hasNext()) {
-			db.insert(i.next());
-		}
-	}
-	private void readLED() {
-		leds = db.findAll();
 	}
 	private void initializeGPIO() {
 		Iterator<Led> i = leds.iterator();
