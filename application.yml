@@ -4,7 +4,6 @@ server:
     port: 9999
 management:
     port: 8999
-    address: 127.0.0.1
     
 spring:
     data:

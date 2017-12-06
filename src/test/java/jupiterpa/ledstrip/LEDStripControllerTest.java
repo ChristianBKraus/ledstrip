@@ -42,10 +42,7 @@ public class LEDStripControllerTest {
         .andExpect(status().isOk())
         .andExpect(content().contentType(APPLICATION_JSON_UTF8))
         .andExpect(jsonPath("$.row").value("1"))
-        .andExpect(jsonPath("$.column").value("1"))
-        .andExpect(jsonPath("$.red").value("10"))
-        .andExpect(jsonPath("$.green").value("10"))
-        .andExpect(jsonPath("$.blue").value("10"));
+        .andExpect(jsonPath("$.column").value("1"));
     }
 
     @Test
@@ -69,6 +66,25 @@ public class LEDStripControllerTest {
     		.andExpect(status().isOk())
     		.andExpect(content().contentType(APPLICATION_JSON_UTF8))
     		.andExpect(content().string(containsString(toJson(led2))));
+    }
+    @Test
+    public void integration() throws Exception {
+    	// Update LED
+    	Led led = new Led(1,1,10,10,10);
+    	mockMvc.perform( put(PATH).content(toJson(led)).contentType(APPLICATION_JSON_UTF8) )
+    		.andExpect(status().isOk())
+    		.andExpect(content().contentType(APPLICATION_JSON_UTF8))
+    		.andExpect(content().string(containsString(toJson(led))));
+    		
+    	// Query LED
+    	mockMvc.perform(get(PATH+"/1/1"))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(APPLICATION_JSON_UTF8))
+        .andExpect(jsonPath("$.row").value("1"))
+        .andExpect(jsonPath("$.column").value("1"))
+        .andExpect(jsonPath("$.red").value("10"))
+        .andExpect(jsonPath("$.green").value("10"))
+        .andExpect(jsonPath("$.blue").value("10"));
     }
     
     private String toJson(Object object) throws JsonProcessingException {
