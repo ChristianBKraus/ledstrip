@@ -34,7 +34,7 @@ public class LEDStripService {
 		return leds.get(_index(row, column));
 	}
 
-	public Led update(Led led) {
+	public Led update(Led led) throws GPIOException {
 		int index = _index(led.getRow(), led.getColumn());
 		Led res = repo.findByRowAndColumn(led.getRow(), led.getColumn());
 		res.update(led);

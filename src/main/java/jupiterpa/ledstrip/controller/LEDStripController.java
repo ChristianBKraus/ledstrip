@@ -13,12 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import jupiterpa.ledstrip.service.LEDStripService;
 import jupiterpa.ledstrip.configuration.LEDStripConfiguration;
-import jupiterpa.ledstrip.model.Led; 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.slf4j.MDC;
-import org.slf4j.Marker;
-import org.slf4j.MarkerFactory;
+import jupiterpa.ledstrip.model.Led;
 
 
 @RequestMapping(path = LEDStripController.PATH)
@@ -26,49 +21,26 @@ import org.slf4j.MarkerFactory;
 public class LEDStripController {
     public static final String PATH ="/ledstrip";
 
-    private static final Marker TECHNICAL = MarkerFactory.getMarker("TECHNICAL");
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
-	
-	
-	@Inject
-	private LEDStripService service;
-	
-	@Autowired
-	LEDStripConfiguration configuration;
+	@Inject    private LEDStripService service;
+	@Autowired LEDStripConfiguration configuration;
 	
 	@GetMapping("")
-	public List<Led> ledstrip() {
-        MDC.put("endpoint", "GET: " + PATH );
-        logger.info(TECHNICAL, "HTTP GET /ledstrip");
-        
+	public List<Led> getLedStrips() {
 		return service.getAll();
 	}
 
 	@GetMapping("/{row}/{column}")
-	public Led ledstrip(@PathVariable int row, 
+	public Led getLedStrip(@PathVariable int row, 
 			            @PathVariable int column) {
-        MDC.put("endpoint", "GET: " + PATH + "/" + row + "/" + column );
-		logger.info(TECHNICAL, "HTTP GET /ledstrip/" +row+"/"+column);
-		
 		validatePosition(row,column);
-		Led res = service.get(row,column);
-		
-		logger.info(TECHNICAL, "HTTP Result: "+res,res);
-		return res;
+		return service.get(row,column);
 	}
 
-
 	@PutMapping("")
-	public Led ledstrip(@RequestBody Led led){
-        MDC.put("endpoint", "PUT: " + PATH );
-		logger.info(TECHNICAL, "HTTP PUT /ledstrip " + led,led);
-
+	public Led putLedStrip(@RequestBody Led led){
 		validatePosition(led.getRow(),led.getColumn());
 		validateColor(led.getRed(), led.getGreen(), led.getBlue());
-		Led res = service.update(led);
-		
-		logger.info(TECHNICAL, "HTTP Result: "+ res,res);
-		return res;
+		return service.update(led);
 	}
 	
 	private void validatePosition(int row, int column) throws LEDNotExistsException {

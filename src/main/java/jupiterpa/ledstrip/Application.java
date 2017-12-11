@@ -5,7 +5,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import jupiterpa.ledstrip.model.Led;
 import jupiterpa.ledstrip.model.LedRepository;
 import jupiterpa.ledstrip.service.*;
 
