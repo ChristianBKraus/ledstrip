@@ -4,7 +4,19 @@ server:
     port: 9999
 management:
     port: 8999
+endpoints:
+    sensitive: false
+    enabled: true
+    health:
+        sensitive: false
+management.security.enabled: false 
     
+ledstrip:
+    rows: 3
+    columns: 3
+    python_program_test: src\main\python\ledstrip_test.py
+    python_program_prod: src\main\python\ledstrip.py
+
 spring:
     data:
         mongodb:
@@ -12,8 +24,3 @@ spring:
             port: 27017
             database: ledstrip
     
-ledstrip:
-    rows: 3
-    columns: 3
-    python_program_test: src\main\python\ledstrip_test.py
-    python_program_prod: src\main\python\ledstrip.py
