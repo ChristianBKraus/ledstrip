@@ -1,13 +1,21 @@
 package jupiterpa.ledstrip.service;
 
 import java.io.IOException;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import jupiterpa.ledstrip.configuration.LEDStripConfiguration;
 import jupiterpa.ledstrip.model.Led;
 
 @Component
 public class GPIO {
 
-	public void update(int index, Led led, String program) throws GPIOException {
+	@Autowired LEDStripConfiguration configuration;
+	
+	public void update(int index, Led led) throws GPIOException {
+		
+		String program = configuration.getPythonProgram();
 
 		ProcessBuilder pb = new ProcessBuilder("python", program, Integer.toString(index),
 				Integer.toString(led.getRed()), Integer.toString(led.getGreen()), Integer.toString(led.getBlue()));

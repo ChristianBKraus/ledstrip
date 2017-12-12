@@ -1,6 +1,7 @@
 package jupiterpa.ledstrip.service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -18,8 +19,6 @@ public class LEDStripService {
 
 	private static final Logger logger = LoggerFactory.getLogger(LEDStripService.class);
 	
-	List<Led> leds = new ArrayList<Led>();
-
 	@Autowired GPIO gpio;
 	@Autowired LedRepository repo;
 	@Autowired LEDStripConfiguration configuration;
@@ -27,33 +26,31 @@ public class LEDStripService {
 	public LEDStripService() { }
 
 	public List<Led> getAll() {
-		return leds;
+		return repo.findAll();
 	}
 
 	public Led get(int row, int column) {
-		return leds.get(_index(row, column));
+		return repo.findByRowAndColumn(row, column);
 	}
 
 	public Led update(Led led) throws GPIOException {
 		int index = _index(led.getRow(), led.getColumn());
 		Led res = repo.findByRowAndColumn(led.getRow(), led.getColumn());
 		res.update(led);
-		repo.save(res);
-		gpio.update(index, led,configuration.getPythonProgram());
-		leds.get(index).update(led);
-		return led;
+		gpio.update(index, led);
+		return repo.save(res);
 	}
 
 	public void initialize() {
 		if (repo.findByRowAndColumn(0, 0) == null) {
 			logger.info("Service No State found, initializing...");
-			initializeLED();
+			Collection<Led> leds = initializeLED();
 			repo.save(leds);
-			initializeGPIO();
+			initializeGPIO(leds);
 		} else {
 			logger.info("Service State stored, initializing...");
-			leds = repo.findAll();
-			initializeGPIO();
+			Collection<Led> leds = repo.findAll();
+			initializeGPIO(leds);
 		}
 		logger.info("Service State initialized");
 	}
@@ -67,18 +64,20 @@ public class LEDStripService {
 			return row + column * rows;
 	}
 
-	private void initializeLED() {
+	private Collection<Led> initializeLED() {
+		Collection<Led> leds = new ArrayList<Led>();
 		for (int i = 0; i < configuration.getRows(); i++) {
 			for (int j = 0;j < configuration.getColumns(); j++) {
 				leds.add(new Led(i,j));
 			}
 		}
+		return leds;
 	}
-	private void initializeGPIO() {
+	private void initializeGPIO(Collection<Led> leds) {
 		Iterator<Led> i = leds.iterator();
 		while (i.hasNext()) {
 			Led led = i.next();
-			gpio.update(_index(led.getRow(),led.getColumn()),led, configuration.getPythonProgram());
+			gpio.update(_index(led.getRow(),led.getColumn()),led);
 		}
 	}
 

@@ -5,14 +5,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import jupiterpa.ledstrip.model.LedRepository;
 import jupiterpa.ledstrip.service.*;
 
 @SpringBootApplication
 public class Application implements CommandLineRunner {
 	
 	@Autowired LEDStripService service;
-	@Autowired LedRepository repo;
 	
 	public static void main(String args[]){
 		SpringApplication.run(Application.class, args);

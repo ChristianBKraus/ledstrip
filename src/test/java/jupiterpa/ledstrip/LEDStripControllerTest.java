@@ -49,26 +49,38 @@ public class LEDStripControllerTest {
     }
     @Test
     public void updateLED() throws Exception {
-    	Led led = new Led(0,0,10,10,10);
+    	Led led = new Led(0,0,10,11,12);
     	mockMvc.perform( put(PATH).content(toJson(led)).contentType(APPLICATION_JSON_UTF8) )
     		.andExpect(status().isOk())
     		.andExpect(content().contentType(APPLICATION_JSON_UTF8))
-    		.andExpect(content().string(containsString(toJson(led))));
+            .andExpect(jsonPath("$.row").value("0"))
+            .andExpect(jsonPath("$.column").value("0"))
+            .andExpect(jsonPath("$.red").value("10"))
+            .andExpect(jsonPath("$.green").value("11"))
+            .andExpect(jsonPath("$.blue").value("12"));
 
     	Led led2 = new Led(0,0,0,0,0);
     	mockMvc.perform( put(PATH).content(toJson(led2)).contentType(APPLICATION_JSON_UTF8) )
     		.andExpect(status().isOk())
     		.andExpect(content().contentType(APPLICATION_JSON_UTF8))
-    		.andExpect(content().string(containsString(toJson(led2))));
+            .andExpect(jsonPath("$.row").value("0"))
+            .andExpect(jsonPath("$.column").value("0"))
+            .andExpect(jsonPath("$.red").value("0"))
+            .andExpect(jsonPath("$.green").value("0"))
+            .andExpect(jsonPath("$.blue").value("0"));
     }
     @Test
     public void integration() throws Exception {
     	// Update LED
-    	Led led = new Led(1,1,10,10,10);
+    	Led led = new Led(1,1,10,11,12);
     	mockMvc.perform( put(PATH).content(toJson(led)).contentType(APPLICATION_JSON_UTF8) )
     		.andExpect(status().isOk())
     		.andExpect(content().contentType(APPLICATION_JSON_UTF8))
-    		.andExpect(content().string(containsString(toJson(led))));
+            .andExpect(jsonPath("$.row").value("1"))
+            .andExpect(jsonPath("$.column").value("1"))
+            .andExpect(jsonPath("$.red").value("10"))
+            .andExpect(jsonPath("$.green").value("11"))
+            .andExpect(jsonPath("$.blue").value("12"));
     		
     	// Query LED
     	mockMvc.perform(get(PATH+"/1/1"))
@@ -77,8 +89,8 @@ public class LEDStripControllerTest {
         .andExpect(jsonPath("$.row").value("1"))
         .andExpect(jsonPath("$.column").value("1"))
         .andExpect(jsonPath("$.red").value("10"))
-        .andExpect(jsonPath("$.green").value("10"))
-        .andExpect(jsonPath("$.blue").value("10"));
+        .andExpect(jsonPath("$.green").value("11"))
+        .andExpect(jsonPath("$.blue").value("12"));
     }
     
     private String toJson(Object object) throws JsonProcessingException {
