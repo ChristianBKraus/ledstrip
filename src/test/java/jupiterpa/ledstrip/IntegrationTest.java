@@ -25,52 +25,37 @@ import jupiterpa.ledstrip.model.Led;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-@ActiveProfiles("mock")
-public class LEDStripControllerTest { 
+@ActiveProfiles("default")
+public class IntegrationTest { 
 	final String PATH = LEDStripController.PATH; 
 
 	@Autowired
     private MockMvc mockMvc;
     
-    @Test
-    public void getOneLED() throws Exception {
+   @Test
+    public void integration() throws Exception {
+    	// Update LED
+    	Led led = new Led(1,1,10,11,12);
+    	mockMvc.perform( put(PATH).content(toJson(led)).contentType(APPLICATION_JSON_UTF8) )
+    		.andExpect(status().isOk())
+    		.andExpect(content().contentType(APPLICATION_JSON_UTF8))
+            .andExpect(jsonPath("$.row").value("1"))
+            .andExpect(jsonPath("$.column").value("1"))
+            .andExpect(jsonPath("$.red").value("10"))
+            .andExpect(jsonPath("$.green").value("11"))
+            .andExpect(jsonPath("$.blue").value("12"));
+    		
+    	// Query LED
     	mockMvc.perform(get(PATH+"/1/1"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(APPLICATION_JSON_UTF8))
         .andExpect(jsonPath("$.row").value("1"))
-        .andExpect(jsonPath("$.column").value("1"));
+        .andExpect(jsonPath("$.column").value("1"))
+        .andExpect(jsonPath("$.red").value("10"))
+        .andExpect(jsonPath("$.green").value("11"))
+        .andExpect(jsonPath("$.blue").value("12"));
     }
-
-    @Test
-    public void getAllLEDs() throws Exception {
-    	mockMvc.perform(get(PATH))
-        	.andExpect(status().isOk())
-        	.andExpect(content().contentType(APPLICATION_JSON_UTF8))
-        	.andExpect(jsonPath("$",hasSize(9)))
-        	.andExpect(jsonPath("$[0].row").value("0"));
-    }
-    @Test
-    public void updateLED() throws Exception {
-    	Led led = new Led(0,0,10,11,12);
-    	mockMvc.perform( put(PATH).content(toJson(led)).contentType(APPLICATION_JSON_UTF8) )
-    		.andExpect(status().isOk())
-    		.andExpect(content().contentType(APPLICATION_JSON_UTF8))
-            .andExpect(jsonPath("$.row").value("0"))
-            .andExpect(jsonPath("$.column").value("0"))
-            .andExpect(jsonPath("$.red").value("10"))
-            .andExpect(jsonPath("$.green").value("11"))
-            .andExpect(jsonPath("$.blue").value("12"));
-
-    	Led led2 = new Led(0,0,0,0,0);
-    	mockMvc.perform( put(PATH).content(toJson(led2)).contentType(APPLICATION_JSON_UTF8) )
-    		.andExpect(status().isOk())
-    		.andExpect(content().contentType(APPLICATION_JSON_UTF8))
-            .andExpect(jsonPath("$.row").value("0"))
-            .andExpect(jsonPath("$.column").value("0"))
-            .andExpect(jsonPath("$.red").value("0"))
-            .andExpect(jsonPath("$.green").value("0"))
-            .andExpect(jsonPath("$.blue").value("0"));
-    }
+    
     private String toJson(Object object) throws JsonProcessingException {
         return new ObjectMapper().writeValueAsString(object);
     }

@@ -17,6 +17,8 @@ ledstrip:
     python_program_test: src\main\python\ledstrip_test.py
     python_program_prod: src\main\python\ledstrip.py
 
+---
+
 spring:
     data:
         mongodb:

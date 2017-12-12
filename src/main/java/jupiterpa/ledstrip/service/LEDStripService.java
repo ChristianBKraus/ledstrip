@@ -22,7 +22,7 @@ public class LEDStripService {
 	@Autowired GPIO gpio;
 	@Autowired LedRepository repo;
 	@Autowired LEDStripConfiguration configuration;
-
+ 
 	public LEDStripService() { }
 
 	public List<Led> getAll() {
