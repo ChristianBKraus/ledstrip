@@ -17,12 +17,19 @@ ledstrip:
     python_program_test: src\main\python\ledstrip_test.py
     python_program_prod: src\main\python\ledstrip.py
 
----
-
 spring:
     data:
         mongodb:
             host: 127.0.0.1
             port: 27017
             database: ledstrip
+    
+---
+spring:
+    profiles: test
+    data:
+        mongodb:
+            host: 127.0.0.1
+            port: 27017
+            database: ledstrip_test
     

@@ -25,7 +25,7 @@ import jupiterpa.ledstrip.model.Led;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-@ActiveProfiles("mock")
+@ActiveProfiles({"mock","test"})
 public class LEDStripControllerTest { 
 	final String PATH = LEDStripController.PATH; 
 
