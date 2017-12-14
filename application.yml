@@ -14,8 +14,8 @@ management.security.enabled: false
 ledstrip:
     rows: 3
     columns: 3
-    python_program_test: src\main\python\ledstrip_test.py
-    python_program_prod: src\main\python\ledstrip.py
+    python_update: src\main\python\ledstrip_test.py
+    python_check: src\main\python\ledstrip_num_test.py
 
 spring:
     data:
@@ -32,4 +32,11 @@ spring:
             host: 127.0.0.1
             port: 27017
             database: ledstrip_test
+
+---
+spring:
+    profiles: raspberry
+ledstrip:
+    python_update: src\main\python\ledstrip.py
+    python_check: src\main\python\ledstrip_num.py
     

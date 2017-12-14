@@ -10,17 +10,10 @@ import org.springframework.validation.annotation.Validated;
 public class LEDStripConfiguration {
 	private int rows;
 	private int columns;
-	private String python_program_test;
-	private String python_program_prod;
+	private String python_update;
+	private String python_check;
 	
 	@Autowired SystemConfiguration system;
-	
-	public String getPythonProgram() {
-		if (system.isProd()) 
-			return getPython_program_test();
-		else
-			return getPython_program_prod();
-	}
 	
 	public int getRows() {
 		return rows;
@@ -34,21 +27,17 @@ public class LEDStripConfiguration {
 	public void setColumns(int columns) {
 		this.columns = columns;
 	}
-
-	public String getPython_program_test() {
-		return python_program_test;
+	public String getPython_update() {
+		return python_update;
+	}
+	public void setPython_update(String python_update) {
+		this.python_update = python_update;
+	}
+	public String getPython_check() {
+		return python_check;
+	}
+	public void setPython_check(String python_check) {
+		this.python_check = python_check;
 	}
 
-	public void setPython_program_test(String python_program_test) {
-		this.python_program_test = python_program_test;
-	}
-
-	public String getPython_program_prod() {
-		return python_program_prod;
-	}
-
-	public void setPython_program_prod(String python_program_prod) {
-		this.python_program_prod = python_program_prod;
-	}	
-	
 }
