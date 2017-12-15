@@ -24,7 +24,7 @@ public class GPIOAOP
 	@Around("execution(* jupiterpa.ledstrip.service.GPIO.*(..))")
 	public Object log(ProceedingJoinPoint joinPoint) throws Throwable {
 
-        logger.info(TECHNICAL, " GPIO " + Arrays.toString(joinPoint.getArgs()));
+        logger.info(TECHNICAL, " GPIO {}", Arrays.toString(joinPoint.getArgs()));
 		counterService.increment("counter.led.update");
 
 		try {

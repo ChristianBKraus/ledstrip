@@ -24,17 +24,17 @@ public class ControllerAOP
 		
         MDC.put("endpoint", LEDStripController.PATH );
         
-        logger.info(TECHNICAL, "HTTP " + joinPoint.getSignature().getName());
+        logger.info(TECHNICAL, "HTTP {}", joinPoint.getSignature().getName());
         if (joinPoint.getArgs().length > 0) {
-        	logger.info(TECHNICAL, "   - " + Arrays.toString(joinPoint.getArgs()));
+        	logger.info(TECHNICAL, "   - {}", Arrays.toString(joinPoint.getArgs()));
         }
 
 		try {
 			Object result = joinPoint.proceed();
-			logger.info(TECHNICAL, "  -> " + result ); 
+			logger.info(TECHNICAL, "  -> {}", result ); 
 			return result;
 		} catch (Throwable e) {
-			logger.error(TECHNICAL, "  => " + e ); 
+			logger.error(TECHNICAL, "  => {}", e ); 
 			e.printStackTrace();
 			throw e;
 		}

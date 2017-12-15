@@ -26,7 +26,7 @@ public class GPIOService implements GPIO {
 		String program = configuration.getPython_update();
 		int number = configuration.getColumns() * configuration.getRows();
 
-		logger.info(TECHNICAL, "    GPIO program " + program);
+		logger.info(TECHNICAL, "    GPIO program {}", program);
 		ProcessBuilder pb = new ProcessBuilder("python", program, Integer.toString(index), Integer.toString(number),
 				Integer.toString(led.getRed()), Integer.toString(led.getGreen()), Integer.toString(led.getBlue()));
 		Process p;
@@ -34,7 +34,7 @@ public class GPIOService implements GPIO {
 			p = pb.start();
 			p.waitFor();
 			int exit = p.exitValue();
-			logger.info(TECHNICAL, "    GPIO exit code " + Integer.toString(exit));
+			logger.info(TECHNICAL, "    GPIO exit code {}", Integer.toString(exit));
 			if (exit != 0) {
 				throw new GPIOException("GPIO Write: Python program exited with " + Integer.toString(exit));
 			}
@@ -51,14 +51,14 @@ public class GPIOService implements GPIO {
 		String program = configuration.getPython_check();
 		int number = configuration.getColumns() * configuration.getRows();
 
-		logger.info(TECHNICAL, "    GPIO program " + program);
+		logger.info(TECHNICAL, "    GPIO program {}", program);
 		ProcessBuilder pb = new ProcessBuilder("python", program, Integer.toString(number) );
 		Process p;
 		try {
 			p = pb.start();
 			p.waitFor();
 			int exit = p.exitValue();
-			logger.info(TECHNICAL, "    GPIO exit code " + Integer.toString(exit));
+			logger.info(TECHNICAL, "    GPIO exit code {}", Integer.toString(exit));
 			if (exit <= 100 || exit > 150) 
 				return 0;
 			else

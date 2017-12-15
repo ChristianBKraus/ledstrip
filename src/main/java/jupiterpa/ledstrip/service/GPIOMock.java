@@ -22,7 +22,7 @@ public class GPIOMock implements GPIO {
 	public void update(int index, Led led) throws GPIOException {
 		
 		String program = configuration.getPython_update();
-		logger.info(TECHNICAL, "Program: " + program);
+		logger.info(TECHNICAL, "Program: {}", program);
 	}
 	public int number() {
 		return 9;
