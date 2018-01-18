@@ -12,7 +12,7 @@ endpoints:
 management.security.enabled: false 
     
 ledstrip:
-    rows: 3
+    rows: 5
     columns: 3
     python_update: src\main\python\ledstrip_test.py
     python_check: src\main\python\ledstrip_num_test.py
